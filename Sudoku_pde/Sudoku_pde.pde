@@ -20,18 +20,22 @@ void setup(){
 }
 
 void draw(){
-  for(int x = 425; x < 642; x++){
-    for (int y = 650; y < 730; y++){
-      if(mousePressed && place.equals("loading")){
-        if(mouseX == x && mouseY == y){
-        place = "selection"; 
-        windowResize(1000,662); 
-        PImage back = loadImage("sudoku background levels.jpg");
-        image(back, 0, 0); 
+  if(place.equals("loading")){
+    for(int x = 425; x < 642; x++){
+      for (int y = 650; y < 730; y++){
+        if(mousePressed){
+          if(mouseX == x && mouseY == y){
+            place = "selection"; 
+            windowResize(1000,662); 
+            PImage back = loadImage("sudoku background levels.jpg");
+            image(back, 0, 0); 
+          }
         }
       }
     }
   }
+  if(place.equals("selection")){
+    
   
   
   
@@ -42,7 +46,7 @@ void draw(){
   
 }
   
-void play(){
+
   
   
   
