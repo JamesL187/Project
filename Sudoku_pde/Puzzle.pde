@@ -1,6 +1,6 @@
 class Puzzle{
-  int[][] grid;  
-  int[][] box1, box2, box3, box4, box5, box6, box7, box8, box9; 
+  private int[][] grid;  
+  private int[][] box1, box2, box3, box4, box5, box6, box7, box8, box9; 
 
   
   Puzzle(){
@@ -14,46 +14,72 @@ class Puzzle{
     box7 = new int[3][3]; 
     box8 = new int[3][3]; 
     box9 = new int[3][3];  
-    for(int x = 0; x < grid.length; x++){
-      for (int y = 0; y < grid[0].length; y++){
-        addRandomNumber(x, y); 
-      }
+
+    for(int x = 1; x <= 2; x++){
+      addNumber(x, 0); 
     }
+    
   }
    
   int[][] getGrid(){
-    return this.grid; 
+  return this.grid; 
   }
   
-  void addRandomNumber(int x, int y){
-    
-    ArrayList<Integer> d = new ArrayList<Integer>(); 
-    d.add(1); 
-    d.add(2); 
-    d.add(3);
-    d.add(4);
-    d.add(5);
-    d.add(6);
-    d.add(7);
-    d.add(8);
-    d.add(9);
-    
-    
-    for(int i = 0; i < d.size(); i++){ 
-      int temp = (int)((d.size())* (Math.random()));
-      int tem = d.get(temp); 
-      if(addToBox(x, y, tem) && gridcheck(x, y, tem)){
-        grid[x][y] = tem; 
-        break; 
+  boolean addNumber(int value, int row){     
+    if(row == grid.length){
+      return true; 
+    }
+    else{      
+      for(int x = 0; x < grid[0].length; x++){
+        if(addToBox(row, x, value) && gridcheck(row, x, value) && grid[row][x] == 0){
+          grid[row][x] = value; 
+          if(addNumber(value, row + 1)){        
+            return true; 
+          }
+          else{
+            removeFromBox(row, x); 
+            grid[row][x] = 0; 
+          }
+        }
       }
-      else{
-        d.remove(i); 
-        i--;
-      }
-      
+    }
+    return false;       
+  }
+  
+  int rand(int x){
+    return (int)(Math.random() * x); 
+  }
+  
+ void removeFromBox(int x, int y){
+   if(x < 3 && y < 3){
+      box1[x][y] = 0; 
     }
     
-  }
+    else if (x < 3 && y < 6){
+      box4[x][y - 3] = 0; 
+    }
+    else if (x  < 3 && y < 9){
+      box7[x][y - 6] = 0; 
+    }    
+    else if (x < 6 && y < 3){
+      box2[x - 3][y] = 0; 
+    }
+    else if (x < 6 && y < 6){
+      box5[x - 3][y - 3] = 0; 
+    }
+    else if (x < 6 && y < 9){
+      box8[x - 3][y - 6] = 0; 
+    }
+    else if (x < 9 && y < 3){
+      box3[x - 6][y] = 0; 
+    }
+    else if (x < 9 && y < 6){
+      box6[x - 6][y - 3] = 0; 
+    }
+    else {
+      box9[x - 6][y - 6] = 0; 
+    }
+ }
     
             
   boolean addToBox(int x, int y, int v){
@@ -114,15 +140,21 @@ class Puzzle{
   }
   
   boolean gridcheck(int x, int y, int value){
-    for (int i = 0; i < grid.length; i++){
-      for (int j = 0; j < grid[0].length; j++){
-        if (i == x || j == y){
-          if(!(i == x && j == y)){
-            if (grid[i][j] == value){
-              return false; 
-            }
-          }
-        }
+    return rowcheck(x, value) && colcheck(y, value); 
+  }
+  
+  boolean rowcheck(int x, int value){
+    for(int i = 0; i < grid[x].length; i++){
+      if(grid[x][i] == value){
+        return false; 
+      }
+    }
+    return true; 
+  }
+  boolean colcheck(int y, int value){
+    for(int i = 0; i < grid.length; i++){
+      if(grid[i][y] == value){
+        return false; 
       }
     }
     return true; 

@@ -2,6 +2,7 @@ private int levels;
 public double easy, medium, hard; 
 public String place; 
 private boolean set; 
+private double[][] proba; 
 private int[][] solution; 
 
 void setup(){
@@ -16,13 +17,10 @@ void setup(){
   PImage load = loadImage("sudoku.png"); 
   image(load,0,-70); 
   PImage play = loadImage("newplay.jpg"); 
-  image(play, 425, 650); 
-  
-  Puzzle temp = new Puzzle(); 
-  solution = temp.getGrid();
-    
-  
+  image(play, 425, 650);   
 }
+
+
 
 void Number(float x, float y, int value, color c){
   textSize(45); 
@@ -32,7 +30,15 @@ void Number(float x, float y, int value, color c){
 }
 
 
+void puzz(boolean set){
+  if (!set){
+    Puzzle temp = new Puzzle(); 
+    solution = temp.getGrid();
+ 
     
+  }
+}
+  
 
 void draw(){
   if(place.equals("loading")){
@@ -90,7 +96,7 @@ void draw(){
   if(place.equals("play")){
     
       windowResize(800, 800); 
-      
+      background(255,255,255);
       rect(150, 150, 500, 500); 
       for(int j = 0; j < 8; j++){
         line(205.55 + 55.5 * j, 150, 205.55 + 55.5 * j, 650); 
@@ -134,22 +140,23 @@ void draw(){
       text("8", 631, 730); 
       text("9", 713, 730); 
      
-        
-        for(int r = 0; r < 9; r++){
-          for(int c = 0; c < 9; c++){
-            if(levels == 1){
-              double tem = Math.random();
-              if(tem > easy){
-                Number(165 + r * 55.5, 190 + c * 55.5, solution[r][c], 0); 
-              }
-              
-            }
+      puzz(set); 
+      set = true; 
+      
+      for(int r = 0; r < 9; r++){
+        for(int c = 0; c < 9; c++){
+          if(levels == 1){
+           
+              Number(165 + r * 55.5, 190 + c * 55.5, solution[r][c], 0); 
+            
+            
           }
         }
-      
-    
-    
+      }
       fill(255,255,255); 
+    
+    
+   
       
     
   }
