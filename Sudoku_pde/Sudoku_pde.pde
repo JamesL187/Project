@@ -32,10 +32,27 @@ void Number(float x, float y, int value, color c){
 
 void puzz(boolean set){
   if (!set){
-    Puzzle temp = new Puzzle(); 
-    solution = temp.getGrid();
+    if(levels == 1){
+      Puzzle temp = new Puzzle(easy); 
+      solution = temp.getGrid();
+    }
+    if(levels == 2){
+      Puzzle temp = new Puzzle(medium); 
+      solution = temp.getGrid();
+    }
+    if(levels == 3){
+      Puzzle temp = new Puzzle(hard); 
+      solution = temp.getGrid();
+    }
+      
+    for(int x = 0; x < solution.length; x++){
+      for(int i = 0; i < solution[0].length; i++){
+        System.out.print(solution[x][i]);
+      }
+      System.out.println(""); 
+    }
+        
  
-    
   }
 }
   
@@ -77,7 +94,7 @@ void draw(){
         }
         else if(mousePressed){
           if(mouseX == x && mouseY == y){
-            place = "play"; 
+            place = "setup"; 
             if(y <= 250){
               levels = 1; 
             }
@@ -93,9 +110,8 @@ void draw(){
       }
     }
   }
-  if(place.equals("play")){
-    
-      windowResize(800, 800); 
+  if(place.equals("setup")){      
+      windowResize(800, 800);     
       background(255,255,255);
       rect(150, 150, 500, 500); 
       for(int j = 0; j < 8; j++){
@@ -146,20 +162,20 @@ void draw(){
       for(int r = 0; r < 9; r++){
         for(int c = 0; c < 9; c++){
           if(levels == 1){
-           
-              Number(165 + r * 55.5, 190 + c * 55.5, solution[r][c], 0); 
-            
+              double ran = Math.random(); 
+              if(ran > easy){
+                Number(165 + r * 55.5, 190 + c * 55.5, solution[r][c], 0); 
+              }
             
           }
         }
       }
       fill(255,255,255); 
-    
-    
-   
-      
-    
+      //place = "play";
   }
+   
+  
+  
 }
   
 
