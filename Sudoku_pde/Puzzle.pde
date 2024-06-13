@@ -40,6 +40,9 @@ class Puzzle{
   int[][] getGrid(){
   return this.grid; 
   }
+  int[][] getPrint(){
+    return this.print; 
+  }
   
   boolean addNumber(int value, int row){     
     if(row == 9){
